@@ -1,4 +1,5 @@
 (function(channelNameSize){
+  const crypto=typeof window==="undefined"?require('node:crypto'):window.crypto;
   const mapping=[], typedarray=new Uint8Array(channelNameSize), map=new Map();
   for(let i=0;i<256;i++) mapping[i]=String.fromCharCode(i);
   function randomChannel(input=true){
