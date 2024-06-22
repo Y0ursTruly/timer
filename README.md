@@ -1,2 +1,2 @@
 # timer
-custom setInterval and setTimeout functionality that is not nerfed when the tab is not in focus
+custom and more accurate setInterval and setTimeout functionality that is not nerfed for things like when the browser tab is not in focus

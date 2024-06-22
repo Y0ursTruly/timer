@@ -1,0 +1,16 @@
+{
+  "name": "timer",
+  "version": "1.0.0",
+  "description": "reliable timer modules unlike default ones",
+  "main": "timer.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "timer",
+    "setTimeout",
+    "setInterval"
+  ],
+  "author": "Y0ursTruly",
+  "license": "Apache-2.0"
+}
