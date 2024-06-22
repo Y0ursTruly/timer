@@ -13,7 +13,7 @@
   map.delete(channel); //it isn't needed to be unique towards other map entries
   function manageTimer(timer,ID){
     //manages each timer in the map of timers
-    if(performance.now()-timer.start >= timer.ms){
+    if(Math.round(performance.now()-timer.start) >= timer.ms){
       timer.userFN();
       if(!timer.repeat) map.delete(ID);
     }
