@@ -10,7 +10,9 @@
     map.set(str,input);
     return str;
   }
-  const channel=randomChannel(), sender=new BroadcastChannel(channel), receiver=new BroadcastChannel(channel);
+
+  //timer engine begin
+  let channel=randomChannel(), sender=null, receiver=null;
   map.delete(channel); //it isn't needed to be unique towards other map entries
   function manageTimer(timer,ID){
     //manages each timer in the map of timers
@@ -21,20 +23,36 @@
       else timer.start=now;
     }
   }
-  
-  //timer engine begin
-  receiver.addEventListener('message',function(){
-    sender.postMessage(null); //repeat the channel messaging
+  function listener(){
+    if(!map.size) return deactivate();
+    sender.postMessage(null); //repeat the channel messaging IF TIMER(S) EXIST
     //the idea here is something that must be waited on but doesn't resolve quickly enough to hang the process
     map.forEach(manageTimer);
-  });
-  sender.postMessage(null); //start the channel messaging
+  }
+  let active=false;
+  function activate(){
+    if(active) return null;
+    sender=new BroadcastChannel(channel);
+    receiver=new BroadcastChannel(channel);
+    receiver.addEventListener('message',listener);
+    sender.postMessage(null);
+    active=true;
+  }
+  function deactivate(){
+    if(!active) return null;
+    receiver.removeEventListener('message',listener);
+    receiver.close();
+    sender.close();
+    active=false;
+  }
   //timer engine end
   
   function timeout(userFN,ms){
+    activate();
     return randomChannel({userFN,ms,repeat:false,start:performance.now()});
   }
   function interval(userFN,ms){
+    activate();
     return randomChannel({userFN,ms,repeat:true,start:performance.now()});
   }
   async function wait(ms){
@@ -44,7 +62,7 @@
   }
   function clear(ID){return map.delete(ID)}
 
-  
+
   //exports
   const timer={timeout,interval,wait,clear};
   if(typeof window!=="undefined") window.timer=timer; //browser

@@ -1,5 +1,6 @@
-//was trying to find out how to use channels but have them stop keeping the process alive
+
 (function(channelNameSize){
+  const crypto=typeof window==="undefined"?require('node:crypto'):window.crypto;
   const mapping=[], typedarray=new Uint8Array(channelNameSize), map=new Map();
   for(let i=0;i<256;i++) mapping[i]=String.fromCharCode(i);
   function randomChannel(input=true){
@@ -10,8 +11,6 @@
     map.set(str,input);
     return str;
   }
-
-  //timer engine begin
   const channel=randomChannel(), sender=new BroadcastChannel(channel), receiver=new BroadcastChannel(channel);
   map.delete(channel); //it isn't needed to be unique towards other map entries
   function manageTimer(timer,ID){
@@ -23,34 +22,20 @@
       else timer.start=now;
     }
   }
-  function listener(){
-    if(!map.size) return deactivate();
-    sender.postMessage(null); //repeat the channel messaging IF TIMER(S) EXIST
+  
+  //timer engine begin
+  receiver.addEventListener('message',function(){
+    sender.postMessage(null); //repeat the channel messaging
     //the idea here is something that must be waited on but doesn't resolve quickly enough to hang the process
     map.forEach(manageTimer);
-  }
-  let active=false;
-  function activate(){
-    if(active) return null;
-    console.log("activated")
-    receiver.addEventListener('message',listener);
-    sender.postMessage(null);
-    active=true;
-  }
-  function deactivate(){
-    if(!active) return null;
-    console.log("deactivated")
-    receiver.removeEventListener('message',listener);
-    active=false;
-  }
+  });
+  sender.postMessage(null); //start the channel messaging
   //timer engine end
   
   function timeout(userFN,ms){
-    activate();
     return randomChannel({userFN,ms,repeat:false,start:performance.now()});
   }
   function interval(userFN,ms){
-    activate();
     return randomChannel({userFN,ms,repeat:true,start:performance.now()});
   }
   async function wait(ms){
@@ -60,7 +45,7 @@
   }
   function clear(ID){return map.delete(ID)}
 
-
+  
   //exports
   const timer={timeout,interval,wait,clear};
   if(typeof window!=="undefined") window.timer=timer; //browser

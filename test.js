@@ -15,7 +15,7 @@ const test=require('node:test'), assert=require('node:assert'), timer=require('.
         {interval_calls:p1,setInterval_calls:p2}
       )
       resolve()
-    },5e3)
+    },5e2)
     return await p
   })
   await test("2) Several Intervals Skill Gap",async function(){
@@ -28,7 +28,7 @@ const test=require('node:test'), assert=require('node:assert'), timer=require('.
     }
     setTimeout(_=>{
       assert.ok(p1>p2)
-      for(let i=0;i>t1.length;i++){
+      for(let i=0;i<t1.length;i++){
         timer.clear(t1[i])
         clearInterval(t2[i])
       }
@@ -40,5 +40,4 @@ const test=require('node:test'), assert=require('node:assert'), timer=require('.
     },5e3)
     return await p
   })
-  timer.wait(10).then(_=>process.exit(0))
 })()
