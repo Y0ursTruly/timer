@@ -3,4 +3,4 @@ custom and more accurate setInterval and setTimeout functionality that is not ne
 
 Roughly 99% accurate _real_ time intervals in JavaScript
 
-![alt text](image.png)
+![test result](image.png)

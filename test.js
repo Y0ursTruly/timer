@@ -10,6 +10,7 @@ const test=require('node:test'), assert=require('node:assert'), timer=require('.
       assert.ok(p1>p2)
       timer.clear(t1)
       clearInterval(t2)
+      console.log("Higher is Better")
       console.log(
         "out of "+Math.floor(performance.now()-t)+" possible calls",
         {interval_calls:p1,setInterval_calls:p2}
@@ -32,6 +33,7 @@ const test=require('node:test'), assert=require('node:assert'), timer=require('.
         timer.clear(t1[i])
         clearInterval(t2[i])
       }
+      console.log("Higher is Better")
       console.log(
         "out of "+Math.floor((performance.now()-t)*t1.length)+" possible calls",
         {interval_calls:p1,setInterval_calls:p2}
@@ -39,5 +41,19 @@ const test=require('node:test'), assert=require('node:assert'), timer=require('.
       resolve()
     },5e3)
     return await p
+  })
+  await test("3) Timeout is Unrivaled",async function(){
+    return await new Promise(async function(resolve){
+      let t=performance.now(), timeout_wait_time=null, setTimeout_wait_time
+      await timer.wait(2e3) //wraps a promise over timeout
+      timeout_wait_time=performance.now()-t
+      t=performance.now()
+      await new Promise(r=>setTimeout(r,2e3)) //promise wrapped over setTimeout
+      setTimeout_wait_time=performance.now()-t
+      assert.ok(timeout_wait_time<setTimeout_wait_time)
+      console.log("Lower is Better")
+      console.log({timeout_wait_time,setTimeout_wait_time})
+      resolve()
+    })
   })
 })()
