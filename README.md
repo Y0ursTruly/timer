@@ -1,2 +1,4 @@
 # timer
 custom and more accurate setInterval and setTimeout functionality that is not nerfed for things like when the browser tab is not in focus
+
+![alt text](image.png)
