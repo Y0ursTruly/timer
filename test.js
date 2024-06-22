@@ -15,7 +15,7 @@ const test=require('node:test'), assert=require('node:assert'), timer=require('.
         {interval_calls:p1,setInterval_calls:p2}
       )
       resolve()
-    },5e2)
+    },5e3)
     return await p
   })
   await test("2) Several Intervals Skill Gap",async function(){
