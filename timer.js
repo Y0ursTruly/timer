@@ -12,21 +12,23 @@
   }
 
   //timer engine begin
-  let channel=randomChannel(), sender=null, receiver=null;
+  let channel=randomChannel(), sender=null, receiver=null, curr=Math.floor(performance.now());
   map.delete(channel); //it isn't needed to be unique towards other map entries
   function manageTimer(timer,ID){
     //manages each timer in the map of timers
-    const now=performance.now()
-    if(now-timer.start >= timer.ms){
+    if(curr-timer.start >= timer.ms){
       timer.userFN();
       if(!timer.repeat) map.delete(ID);
-      else timer.start=now;
+      else timer.start=curr;
     }
   }
   function listener(){
     if(!map.size) return deactivate();
     sender.postMessage(null); //repeat the channel messaging IF TIMER(S) EXIST
     //the idea here is something that must be waited on but doesn't resolve quickly enough to hang the process
+    const now=performance.now();
+    if(now-curr<1) return null;
+    curr=Math.floor(now);
     map.forEach(manageTimer);
   }
   let active=false;
