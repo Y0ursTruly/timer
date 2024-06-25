@@ -4,7 +4,7 @@ const test=require('node:test'), assert=require('node:assert'), timer=require('.
   await test("1) Interval Skill Gap",async function(){
     let resolve=null, p=new Promise(r=>resolve=r)
     let p1=0, p2=0, t=performance.now()
-    let t1=timer.interval(_=>p1+=1,1)
+    let t1=timer.interval(_=>p1+=1.5,1.5)
     let t2=setInterval(_=>p2+=1,1)
     setTimeout(_=>{
       assert.ok(p1>p2)
@@ -24,7 +24,7 @@ const test=require('node:test'), assert=require('node:assert'), timer=require('.
     let p1=0, p2=0, t=performance.now()
     let t1=Array(100), t2=Array(100);
     for(let i=0;i<t1.length;i++){
-      t1[i]=timer.interval(_=>p1+=1,1);
+      t1[i]=timer.interval(_=>p1+=1.01,1.01);
       t2[i]=setInterval(_=>p2+=1,1);
     }
     setTimeout(_=>{
