@@ -1,5 +1,5 @@
 {
-  "name": "timer",
+  "name": "@y0urstruly/timer",
   "version": "1.0.0",
   "description": "reliable timer modules unlike default ones",
   "main": "timer.js",
@@ -9,8 +9,14 @@
   "keywords": [
     "timer",
     "setTimeout",
-    "setInterval"
+    "setInterval",
+    "BroadcastChannel",
+    "performance"
   ],
+  "exports": {
+    ".": "./timer.js",
+    "./docile": "./docile/alternate_timer.js"
+  },
   "author": "Y0ursTruly",
   "license": "Apache-2.0"
 }

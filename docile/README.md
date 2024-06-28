@@ -3,8 +3,7 @@ Custom and more accurate setInterval and setTimeout functionality that is not ne
 
 # Features
 - Roughly 99% accurate _real time_ intervals in JavaScript
-- More precision than a whole millisecond; fractional values supported
-- Alternate version with only whole millisecond precision but with a smaller footprint on the JavaScript Event Loop
+- Smaller footprint to the JavaScript Event Loop than main `timer.js`
 
 # Installation and Usage
 - Install via <br>```npm install @y0urstruly/timer```
@@ -18,11 +17,8 @@ Custom and more accurate setInterval and setTimeout functionality that is not ne
 - `clear`: removes any `interval` or `timeout` by _ID_ (eg `clear(timeout(someFN))` is a waste of code since `someFN` will never run)
 
 # Disclaimers
-- It is more precise in nodejs (>300 events per ms ~~at least on a github codespace~~)
-- It is less precise in a browser (~10 events per ms ~~at least on a chrome tab~~)
-- The 2 points above were determined by comparing a 0ms interval to a 1ms interval and the ratio of their calls
-- Of course, sub ms timers might lose precision since functions take time to execute (tested on codespace for 0.2ms and got 98% precision instead) so it is recommended to have fractional timer values _greater than_ 1
-- The smaller the fractional part, the less accurate (`1.1 would be more accurate than 2.01`)
+- The smallest unit of accuracy is only a whole millisecond (LESS ACCURATE THAN MAIN `timer.js`)
+- Since this only checks every 1 ms, the worst case error is 0.999... ms
 
 # Comparison to Native Modules
 - This section will always be dedicated to displaying the test results of the current commit
