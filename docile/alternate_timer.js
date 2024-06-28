@@ -90,7 +90,7 @@
     return await promise;
   }
   function clear(ID){
-    if(!timers[ID]) return false;
+    if(typeof ID!=="number" || !timers[ID]) return false;
     delete timers[ID];
     timers.queue.add(ID);
     timers.count--;
