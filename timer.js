@@ -38,9 +38,10 @@
     if(!timers.count) return deactivate();
     sender.postMessage(null); //repeat the channel messaging IF TIMER(S) EXIST
     //the idea here is something that must be waited on but doesn't resolve quickly enough to hang the process
+    const now=performance.now() //noticable performance difference when checking time outside loop
     for(let i=0;i<timers.length;i++){
       if(!timers[i]) continue;
-      const now=performance.now(), timer=timers[i];
+      const timer=timers[i];
       if(now-timer.start >= timer.ms){
         timer.userFN();
         if(!timer.repeat){

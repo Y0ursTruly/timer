@@ -1,6 +1,6 @@
 {
   "name": "@y0urstruly/timer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "reliable timer modules unlike default ones",
   "main": "timer.js",
   "scripts": {
