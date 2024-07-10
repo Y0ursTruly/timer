@@ -1,7 +1,7 @@
 {
-  "name": "docile-timer",
+  "name": "alternate-timer",
   "version": "1.0.0",
-  "description": "docile alternate version of the main timer.js",
+  "description": "alternate version of the main timer.js",
   "main": "alternate_timer.js",
   "scripts": {
     "test": "node test.js"

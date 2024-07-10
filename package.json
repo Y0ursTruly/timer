@@ -1,6 +1,6 @@
 {
   "name": "@y0urstruly/timer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "reliable timer modules unlike default ones",
   "main": "timer.js",
   "scripts": {
@@ -19,7 +19,7 @@
   ],
   "exports": {
     ".": "./timer.js",
-    "./docile": "./docile/alternate_timer.js"
+    "./alternate": "./alternate/alternate_timer.js"
   },
   "author": "Y0ursTruly",
   "license": "Apache-2.0",

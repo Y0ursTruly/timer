@@ -21,7 +21,7 @@ const {timeout,interval,wait,clear} = require('@y0urstruly/timer');
 ```
 - Alternate Timer Library
 ```
-const {timeout,interval,wait,clear} = require('@y0urstruly/timer/docile');
+const {timeout,interval,wait,clear} = require('@y0urstruly/timer/alternate');
 ```
 
 ## TypeScript
