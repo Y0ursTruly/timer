@@ -56,4 +56,5 @@ const test=require('node:test'), assert=require('node:assert'), timer=require('.
       resolve()
     })
   })
+  process.exit(0) //needed to kill the test process for now since timer now spawns worker thread
 })()

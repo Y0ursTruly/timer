@@ -34,17 +34,15 @@
   const timers={__proto__:null,length:0,count:0,queue:new Queue()};
   const thread=makethread()
   function parentListener(event){ //set on thread, listens to input FROM the parent
-    const [id,timer]=event.data;
-    console.log({id,timer})
+    const [id,timer]=(event.data||event);
     if(!timer) return (delete timers[id],timers.count--);
     timer.start=performance.now()-(Date.now()-timer.start); //transition to worker's performance.now()
     if(id>=timers.length) timers.length++;
     timers.count++;
     timers[id]=timer;
-    console.log(timers)
   }
   function threadListener(event){ //set on parent, listens to input FROM the thread
-    const id=event.data, timer=timers[id];
+    const id=(event.data||event), timer=timers[id];
     if(!timer) return null;
     if(!timer.repeat){
       delete timers[id];
@@ -74,10 +72,8 @@
   //timer engine begin (only on thread, never on parent)
   let channel=randomChannel(), sender=null, receiver=null;
   function listener(){ //listener is only ever set in the worker thread
-    //console.log('ever?')
-    //if(!timers.count) return deactivate();
-    //console.log('ever?')
     sender.postMessage(null); //repeat the channel messaging IF TIMER(S) EXIST
+    if(!timers.count) return null;
     //the idea here is something that must be waited on but doesn't resolve quickly enough to hang the process
     const now=performance.now() //noticable performance difference when checking time outside loop
     for(let i=0;i<timers.length;i++){
@@ -90,32 +86,19 @@
       }
     }
   }
-  let active=false;
-  function activate(){
-    if(active) return null;
-    active=true;
-    if(!isThread) return null;
+  if(isThread){
     sender=new BroadcastChannel(channel);
     receiver=new BroadcastChannel(channel);
     receiver.addEventListener('message',listener);
     sender.postMessage(null);
   }
-  function deactivate(){
-    if(!active) return null;
-    receiver.removeEventListener('message',listener);
-    receiver.close();
-    sender.close();
-  }
-  if(isThread) activate();
   //timer engine end (only on thread, never on parent)
 
 
   function timeout(userFN,ms){
-    activate();
     return randomChannel({userFN,ms,repeat:false,start:Date.now()});
   }
   function interval(userFN,ms){
-    activate();
     return randomChannel({userFN,ms,repeat:true,start:Date.now()});
   }
   async function wait(ms){
